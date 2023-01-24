@@ -26,6 +26,7 @@ enum custom_keycodes {
     KC_MISSION_CONTROL = SAFE_RANGE,
 #endif
     KC_LAUNCHPAD
+    // JX_CUST
 };
 
 #define KC_MCTL KC_MISSION_CONTROL
@@ -130,6 +131,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 host_consumer_send(0);
             }
             return false;  // Skip all further processing of this key
+        // case JX_CUST:
+        //     if (record->event.pressed) {
+        //         SEND_STRING("$$$ENTER VALUE HERE" SS_DELAY(500) SS_TAP(X_ENT));
+        //     } 
+        //     return false;
         default:
             return true;  // Process all other keycodes normally
     }
