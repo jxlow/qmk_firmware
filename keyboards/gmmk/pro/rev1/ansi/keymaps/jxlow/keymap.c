@@ -15,6 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
+// #include "rgb_matrix_map.h"
 
 // clang-format off
 
@@ -28,6 +29,8 @@ enum custom_keycodes {
     KC_LAUNCHPAD
     // JX_CUST
 };
+
+#define _CAPS_COLOR_RGB 255, 0, 0 // RED
 
 #define KC_MCTL KC_MISSION_CONTROL
 #define KC_LPAD KC_LAUNCHPAD
@@ -139,4 +142,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         default:
             return true;  // Process all other keycodes normally
     }
+}
+
+bool rgb_matrix_indicators_user(void) {
+    if (host_keyboard_led_state().caps_lock) {
+        for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; ++i) {
+            if (HAS_ANY_FLAGS(g_led_config.flags[i], LED_FLAG_UNDERGLOW)) {
+                rgb_matrix_set_color(i, _CAPS_COLOR_RGB);
+            }
+        }
+    }
+    return false;
 }
